@@ -15,8 +15,10 @@ The server enforces a 20-second deadline for each turn. Even a full four-player 
 
 ## Run locally
 
+The GitHub repository name begins with a hyphen, so the clone command below names the local folder explicitly:
+
 ```bash
-git clone https://github.com/hussalmnt-glitch/-relay-rush.git
+git clone https://github.com/hussalmnt-glitch/-relay-rush.git relay-rush
 cd relay-rush
 npm start
 ```
@@ -99,7 +101,7 @@ The server is authoritative. The browser and agents submit actions; neither can 
 
 This is a single-process Node service. Deploy one application instance with a persistent writable disk mounted at `DATA_DIR`. The JSON store is intentionally dependency-free and suitable for a small bounty demo; it is **not** a multi-instance database. Do not run multiple replicas against the same JSON file. For a larger production audience, replace the persistence adapter with a transactional database before horizontal scaling.
 
-Set `PORT` and `DATA_DIR` in the hosting environment. The public game URL and public repository URL should only be announced after deployment and external browser/API smoke tests succeed.
+Set `PORT` and `DATA_DIR` in the hosting environment. The public game URL should only be announced after deployment and external browser/API smoke tests succeed.
 
 ## Security notes
 
