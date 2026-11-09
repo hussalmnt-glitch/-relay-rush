@@ -74,7 +74,7 @@ The state response includes `legalActions`, `turnId`, `actionPoints`, player pos
 | `GET` | `/api/matches/:code/state` | Authenticated state with legal actions |
 | `POST` | `/api/matches/:code/action` | Submit a browser player's action |
 | `GET` | `/api/agent/matches/:code/state` | Agent state endpoint |
-| `POST` | `/api/agent/matches/:code/moves` | Submit a move through the agent API |
+| `POST` | `/api/agent/matches/:code/moves` | Agent move endpoint |
 | `GET` | `/api/matches/:code/events` | Append-only match event log |
 
 ## Tests
