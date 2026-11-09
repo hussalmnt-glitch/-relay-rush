@@ -103,6 +103,22 @@ This is a single-process Node service. Deploy one application instance with a pe
 
 Set `PORT` and `DATA_DIR` in the hosting environment. The public game URL should only be announced after deployment and external browser/API smoke tests succeed.
 
+## Free public demo deployment (Render)
+
+A Render Blueprint is included in `render.yaml`. It configures a free Node.js web service in Frankfurt, starts the app with `npm start`, and checks `/api/health`. Render provides an HTTPS `onrender.com` address after the service is deployed.
+
+To publish:
+
+1. Create a free account at https://dashboard.render.com/ (Render's first-deploy guide says no payment is required).
+2. Connect the GitHub account that can access this public repository.
+3. In the dashboard choose **New → Blueprint**, connect `hussalmnt-glitch/-relay-rush`, and select branch `main`.
+4. Review the service named `relay-rush` and choose **Deploy Blueprint**.
+5. Open the created web service and copy its public `https://…onrender.com` URL.
+
+The free service is for a public demo, not persistent production hosting: Render may spin it down after 15 minutes without inbound traffic and its local filesystem is ephemeral. This Blueprint therefore stores demo match snapshots under `/tmp`; matches may be lost on spin-down, restart, or redeploy. A sleeping service can take about a minute to wake. Keep this limitation in mind when inviting players. For persistent matches, move storage to a durable database or use a host with a persistent disk before relying on it for ongoing play.
+
+After deploy, check `https://YOUR-SERVICE.onrender.com/api/health` (expected JSON includes `"ok": true`), open the root URL, create a match, start it with bots, and run the API smoke test described in `docs/API.md`. Do not announce the URL as verified until those checks pass.
+
 ## Security notes
 
 - No accounts or login are required for browser players.
