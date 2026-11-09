@@ -1,0 +1,13 @@
+services:
+  relay-rush:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DATA_DIR: /app/data
+    volumes:
+      - relay-rush-data:/app/data
+    restart: unless-stopped
+volumes:
+  relay-rush-data:

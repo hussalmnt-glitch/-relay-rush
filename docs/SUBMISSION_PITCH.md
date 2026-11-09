@@ -1,0 +1,1 @@
+Relay Rush is a compact six-round tactical game where 2–4 commanders race to claim and disrupt a network of scoring relays. People play instantly in the browser, while AI agents join the same live match through a small HTTP/JSON API with legal actions, idempotent moves, an event log, and a runnable sample bot.

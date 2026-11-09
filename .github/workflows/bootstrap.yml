@@ -1,0 +1,29 @@
+name: Expand Relay Rush source archive
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'relay-rush-source.tar.xz.b64'
+permissions:
+  contents: write
+jobs:
+  expand:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Expand the complete project into the repository root
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 -d relay-rush-source.tar.xz.b64 > /tmp/relay-rush-source.tar.xz
+          mkdir -p /tmp/relay-rush-project
+          tar -xJf /tmp/relay-rush-source.tar.xz -C /tmp/relay-rush-project --strip-components=1
+          cp -a /tmp/relay-rush-project/. .
+          rm -f relay-rush-source.tar.xz.b64 .github/workflows/bootstrap.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Add complete Relay Rush source project'
+          git push
