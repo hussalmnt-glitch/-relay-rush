@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'relay-rush-source.tar.xz.part*.b64'
+      - '.github/workflows/bootstrap.yml'
 permissions:
   contents: write
 jobs:
