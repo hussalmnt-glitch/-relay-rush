@@ -3,25 +3,35 @@ on:
   push:
     branches: [main]
     paths:
-      - 'relay-rush-source.tar.xz.b64'
+      - 'relay-rush-source.tar.xz.part*.b64'
 permissions:
   contents: write
 jobs:
-  expand:
+  expand-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: true
-      - name: Expand the complete project into the repository root
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Reassemble and expand the verified source archive
         shell: bash
         run: |
           set -euo pipefail
-          base64 -d relay-rush-source.tar.xz.b64 > /tmp/relay-rush-source.tar.xz
+          cat relay-rush-source.tar.xz.part*.b64 > /tmp/relay-rush-source.tar.xz.b64
+          base64 -d /tmp/relay-rush-source.tar.xz.b64 > /tmp/relay-rush-source.tar.xz
           mkdir -p /tmp/relay-rush-project
           tar -xJf /tmp/relay-rush-source.tar.xz -C /tmp/relay-rush-project --strip-components=1
           cp -a /tmp/relay-rush-project/. .
-          rm -f relay-rush-source.tar.xz.b64 .github/workflows/bootstrap.yml
+          rm -f relay-rush-source.tar.xz*.b64 .github/workflows/bootstrap.yml
+      - name: Run complete test suite
+        run: npm test
+      - name: Commit complete source project
+        shell: bash
+        run: |
+          set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
