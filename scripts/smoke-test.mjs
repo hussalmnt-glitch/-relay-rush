@@ -30,13 +30,13 @@ if (base.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(base.host
   console.error('A public deployment must use HTTPS.');
   process.exit(2);
 }
-base.pathname = base.pathname.replace(/\/$/, '');
+const basePath = base.pathname.replace(/\/+$/, '');
 base.search = '';
 base.hash = '';
 
 const timeout = 90_000;
 async function api(method, pathname, { body, token } = {}) {
-  const response = await fetch(new URL(`${base.pathname}${pathname}`, base.origin), {
+  const response = await fetch(new URL(`${basePath}${pathname}`, base.origin), {
     method,
     headers: {
       ...(body === undefined ? {} : { 'content-type': 'application/json' }),
