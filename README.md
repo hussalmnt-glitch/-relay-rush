@@ -117,7 +117,7 @@ To publish:
 
 The free service is for a public demo, not persistent production hosting: Render may spin it down after 15 minutes without inbound traffic and its local filesystem is ephemeral. This Blueprint therefore stores demo match snapshots under `/tmp`; matches may be lost on spin-down, restart, or redeploy. A sleeping service can take about a minute to wake. Keep this limitation in mind when inviting players. For persistent matches, move storage to a durable database or use a host with a persistent disk before relying on it for ongoing play.
 
-After deploy, check `https://YOUR-SERVICE.onrender.com/api/health` (expected JSON includes `"ok": true`), open the root URL, create a match, start it with bots, and run the API smoke test described in `docs/API.md`. Do not announce the URL as verified until those checks pass.
+After deploy, check `https://YOUR-SERVICE.onrender.com/api/health` (expected JSON includes `"ok": true`) and open the root URL. For an automated end-to-end check of the public page, human and agent authentication, both move APIs, idempotent retries, game completion, and the event log, run `node scripts/smoke-test.mjs https://YOUR-SERVICE.onrender.com` from a Node.js 20+ checkout. This creates and completes a separate test match. Then manually open the game URL in a browser and play a bot-filled match. Do not announce the URL as verified until those checks pass.
 
 ## Security notes
 
